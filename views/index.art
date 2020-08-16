@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>首页-列表</title>
+    <link rel="stylesheet" href="/bootstrap.css" />
+  </head>
+  <body>
+    <div class="center-block">
+      <div class="header container">
+        <div class="page-header">
+          <h1>首页 <small>评论</small></h1>
+          <a class="btn btn-success" href="/add">发表留言</a>
+        </div>
+      </div>
+      <div class="comments container">
+        <ul class="list-group">
+          {{each msgList}}
+          <li list-group-item>
+            {{ $value.name }}说：{{ $value.content }}
+            <span class="pull-right">创建于：{{ $value.create_at }}</span>
+            {{/each}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
