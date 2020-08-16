@@ -8,9 +8,9 @@
 |--app.js  // 项目入口文件
 ```
 
-框架：koa（轻量级node服务）
-路由：koa-router
-模板：art-template
-静态资源处理：koa-static
+* 框架：koa（轻量级node服务）
+* 路由：koa-router
+* 模板：art-template
+* 静态资源处理：koa-static
    
 
