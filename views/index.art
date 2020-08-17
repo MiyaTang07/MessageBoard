@@ -17,13 +17,37 @@
       <div class="comments container">
         <ul class="list-group">
           {{each msgList}}
-          <li list-group-item>
-            {{ $value.name }}说：{{ $value.content }}
-            <span class="pull-right">创建于：{{ $value.create_at }}</span>
-            {{/each}}
+          <li list-group-item class="flex">
+            <span class="grow-1"
+              >{{ $value.name }}说：{{ $value.content }}</span
+            >
+            <span class="pull-right">
+              创建于：{{ $value.create_at }}
+              <button id="deleteID" onclick="deleteMsg('{{ $index }}')">
+                删除
+              </button>
+            </span>
           </li>
+          {{/each}}
         </ul>
       </div>
     </div>
   </body>
+  <script src="jquery.min.js"></script>
+  <script>
+      let deleteMsg = function (index) {
+        $.ajax({
+          url:'/delete',
+          method:'post',
+          data:{id:index},
+          success:function(data){
+            console.log('data', data)
+            if(data && data.msg === 'success'){
+              alert('删除成功！')
+              location.reload()
+            }
+          }
+        });
+      };
+  </script>
 </html>
