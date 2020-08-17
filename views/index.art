@@ -35,7 +35,7 @@
   </body>
   <script src="jquery.min.js"></script>
   <script>
-      let deleteMsg = function (index) {
+      function deleteMsg(index) {
         $.ajax({
           url:'/delete',
           method:'post',

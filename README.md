@@ -13,6 +13,9 @@
 * 模板：art-template
 * 静态资源处理：koa-static
 
-### koa的中间件
+### 启动项目
+```
+node app.js
+```
    
 
