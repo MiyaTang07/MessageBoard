@@ -10,17 +10,30 @@
     <div class="center-block">
       <div class="header container">
         <div class="page-header">
-          <h1>首页 <small>评论</small></h1>
+          <h1>首页</h1>
           <a class="btn btn-success" href="/add">发表留言</a>
         </div>
+        <div class="form-group form-inline">
+          <label for="exampleInputEmail1">留言人</label>
+          <input
+            class="form-control"
+            id="nameId"
+            placeholder="请输入查询内容"
+          />
+          <button
+            type="submit"
+            class="btn btn-default"
+            onclick="nameSearchClick()"
+          >
+            查询
+          </button>
+        </div>
       </div>
-      <div class="comments container">
+      <div  class="comments container">
         <ul class="list-group">
-          {{each msgList}}
+          {{each list}}
           <li list-group-item class="flex">
-            <span class="grow-1"
-              >{{ $value.name }}说：{{ $value.content }}</span
-            >
+            <span class="grow-1">{{ $value.name }}说：{{ $value.content }}</span>
             <span class="pull-right">
               创建于：{{ $value.create_at }}
               <button id="deleteID" onclick="deleteMsg('{{ $value.id }}')">
@@ -33,21 +46,60 @@
       </div>
     </div>
   </body>
+
+
   <script src="jquery.min.js"></script>
-  <script>
-      function deleteMsg(id) {
-        $.ajax({
-          url:'/delete',
-          method:'post',
-          data:{id:id},
-          success:function(data){
-            console.log('data', data)
-            if(data && data.msg === 'success'){
-              alert('删除成功！')
-              location.reload()
-            }
+  <script type="text/javascript">
+    // function getListAll(callback) {
+    //   $.ajax({
+    //     url: "/listAll",
+    //     method: "get",
+    //     success: function (data) {
+    //       if (data.msg === "success" && data.code == 200) {
+    //         let list = data.data.list;
+    //         callback(list);
+    //       }
+    //     },
+    //   });
+    // }
+
+    function deleteMsg(id) {
+      $.ajax({
+        url: "/delete",
+        method: "post",
+        data: { id: id },
+        success: function (data) {
+          console.log("data", data);
+          if (data && data.msg === "success") {
+            alert("删除成功！");
+            location.reload();
           }
-        });
-      };
+        },
+      });
+    }
+
+    function nameSearchClick() {
+      let val = $("#nameId").val();
+      if (!val) {
+        alert("请输入查询姓名");
+        return;
+      }
+      $.ajax({
+        url: "/queryNameSearch",
+        method: "post",
+        data: { name: val },
+        success: function (res) {
+          console.log("res", res);
+          if (res.msg === "success" && res.code == 200) {
+            let list = res.data.list;
+            if(list && Array.isArray(list)){
+              list.length === 0 && alert(`没有${val}的评论`)
+              return
+            }
+            console.log('查询到的list', list)
+          }
+        },
+      });
+    }
   </script>
 </html>

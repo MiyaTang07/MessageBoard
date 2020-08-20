@@ -15,26 +15,36 @@ mongoose.connect(dbConfig.db, {
 
 // 时间格式化库
 const moment = require("moment");
-const { reverse } = require("dns");
 
 const router = new Router();
 
-// let msgList = [
-//   { name: "miya", content: "hello world!", create_at: "2020-08-17 08:08:08" },
-// ];
-
-// 留言列表
-router.get("/", async (ctx) => {
+router.get('/',async ctx=>{  
   let list = []
   try {
     list = await model.find();
-    // console.log('res', list)
   } catch (error) {
     console.error(error)
   }
-  await ctx.render("index", {
-    msgList: list,
-  });
+  ctx.render('index', {
+    list:list
+  })
+})
+
+// 留言列表
+router.get("/listAll", async (ctx) => {
+  let list = []
+  try {
+    list = await model.find();
+  } catch (error) {
+    console.error(error)
+  }
+  ctx.response.body = {
+    code:200,
+    msg:'success',
+    data:{
+      list:list
+    }
+  }
 });
 
 // 新增留言页面
@@ -66,6 +76,21 @@ router.post('/delete', async (ctx, next) =>{
         msg:'success',
         code:200
     }
+})
+
+// 根据姓名查询留言内容
+router.post('/queryNameSearch',async ctx =>{
+  const rb = ctx.request.body
+  let { name } = rb
+  const list = await model.find({name: name});
+  console.log('list', list)
+  ctx.response.body = {
+    data:{
+      list:list
+    },
+    msg:'success',
+    code:200
+  }
 })
 
 module.exports = router;
